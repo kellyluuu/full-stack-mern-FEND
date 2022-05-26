@@ -3,6 +3,7 @@ import {useEffect, useState} from "react"
 import Index from "../page/Index"
 import Show from "../page/Show"
 
+
 function Main(props) {
   const[people, setPeople] = useState(null)
   const URL = "https://kluuportfolio.herokuapp.com/"
@@ -16,14 +17,24 @@ function Main(props) {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
-      }
+      },
+      body: JSON.stringify(person),
     })
+    // update list of people
+    getPeople()
   }
+  useEffect(()=>{getPeople()},[])
   return (
     <main>
       <Routes>
-      <Route exact path ="/" element = {<Index />}/>
-      <Route path = "/people/:id" element = {<Show />}/>
+
+      <Route path ="/" 
+      element = {<Index people={people} createPeople={createPeople} />}
+      />
+
+      <Route path = "/people/:id" 
+      element = {<Show people={people}/>}
+      />
       </Routes>
     </main>
 
